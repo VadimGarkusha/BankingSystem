@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
-using BankingSystem.Features.Users.BL;
-using BankingSystem.Features.Users.DAL;
-using BankingSystem.Features.Users.Data;
+using BankingSystem.BL.Users;
+using BankingSystem.DAL.Users;
 using Moq;
 
 namespace BankingSystem.UnitTests.Features.Users

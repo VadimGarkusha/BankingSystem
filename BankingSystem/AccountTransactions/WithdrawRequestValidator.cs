@@ -1,22 +1,21 @@
-﻿using BankingSystem.Common;
-using BankingSystem.Features.Accounts.DAL;
-using BankingSystem.Features.Accounts.Data;
+﻿using BankingSystem.BL.Accounts;
+using BankingSystem.Common;
 using FluentValidation;
 
-namespace BankingSystem.Features.AccountTransactions
+namespace BankingSystem.AccountTransactions
 {
     public class WithdrawRequestValidator : AbstractValidator<WithdrawRequest>
     {
-        public WithdrawRequestValidator(ITransactionLimitsProvider transactionLimitsProvider, IAccountDAL accountDAL)
+        public WithdrawRequestValidator(ITransactionLimitsProvider transactionLimitsProvider, IAccountService accountService)
         {
             var transactionLimits = transactionLimitsProvider.GetTransactionLimits();
 
-            RuleFor(d => d.AccountId).GreaterThan(0);
-            RuleFor(d => d.Amount).GreaterThan(0);
+            RuleFor(d => d.AccountId).GreaterThan(0).WithMessage("Invalid account");
+            RuleFor(d => d.Amount).GreaterThan(0).WithMessage("Amount should be greater than 0");
 
             RuleFor(d => d).MustAsync(async (request, cancellationTkn) =>
             {
-                var account = await accountDAL.GetAccountById(request.AccountId);
+                var account = await accountService.GetAccountById(request.AccountId);
 
                 if (account == null)
                 {
@@ -27,7 +26,7 @@ namespace BankingSystem.Features.AccountTransactions
 
                 return newAmount >= transactionLimits.MinimumAccountAmountLimit
                     && request.Amount <= account.CurrentAmount * transactionLimits.MaximumWithdrawRatioLimit;
-            });
+            }).WithMessage($"You must leave minimum {transactionLimits.MinimumAccountAmountLimit} and cannot withdraw more than {transactionLimits.MaximumWithdrawRatioLimit * 100}%");
         }
     }
 }

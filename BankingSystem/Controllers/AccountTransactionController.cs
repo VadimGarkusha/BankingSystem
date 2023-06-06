@@ -1,16 +1,17 @@
-﻿using BankingSystem.Features.AccountTransactions.BL;
+﻿using BankingSystem.AccountTransactions;
+using BankingSystem.BL.AccountTransactions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankingSystem.Features.AccountTransactions
+namespace BankingSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AccountTransactionController : Controller
     {
-        private IAccountTransactionService _accountTransactionService;
-        private IValidator<DepositRequest> _depositRequestValidator;
-        private IValidator<WithdrawRequest> _withdrawRequestValidator;
+        private readonly IAccountTransactionService _accountTransactionService;
+        private readonly IValidator<DepositRequest> _depositRequestValidator;
+        private readonly IValidator<WithdrawRequest> _withdrawRequestValidator;
 
 
         public AccountTransactionController(IAccountTransactionService accountTransactionService, IValidator<DepositRequest> depositRequestValidator,
@@ -30,10 +31,10 @@ namespace BankingSystem.Features.AccountTransactions
             var validationResult = _depositRequestValidator.Validate(depositRequest);
             if (!validationResult.IsValid)
             {
-                return new BadRequestResult();
+                return new BadRequestObjectResult(new { Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList() });
             }
 
-            var transaction = await _accountTransactionService.ProcessTransaction(depositRequest.AccountId, depositRequest.Amount);
+            var transaction = await _accountTransactionService.Deposit(depositRequest.AccountId, depositRequest.Amount);
 
             if (transaction == null)
             {
@@ -52,12 +53,12 @@ namespace BankingSystem.Features.AccountTransactions
             var validationResult = await _withdrawRequestValidator.ValidateAsync(withdrawRequest);
             if (!validationResult.IsValid)
             {
-                return new BadRequestResult();
+                return new BadRequestObjectResult(new { Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList() });
             }
 
             var negativeAmount = -withdrawRequest.Amount;
 
-            var transaction = await _accountTransactionService.ProcessTransaction(withdrawRequest.AccountId, negativeAmount);
+            var transaction = await _accountTransactionService.Withdraw(withdrawRequest.AccountId, negativeAmount);
 
             if (transaction == null)
             {

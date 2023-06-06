@@ -1,16 +1,16 @@
-﻿using BankingSystem.Features.Accounts.BL;
-using BankingSystem.Features.Accounts.Data;
+﻿using BankingSystem.Accounts;
+using BankingSystem.BL.Accounts;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BankingSystem.Features.Accounts
+namespace BankingSystem.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AccountController : ControllerBase
     {
-        private IAccountService _accountsService;
-        private IValidator<CreateAccountRequest> _createAccountRequestValidatorValidator;
+        private readonly IAccountService _accountsService;
+        private readonly IValidator<CreateAccountRequest> _createAccountRequestValidatorValidator;
 
         public AccountController(IAccountService accountsService, IValidator<CreateAccountRequest> createAccountRequestValidatorValidator)
         {
@@ -27,7 +27,7 @@ namespace BankingSystem.Features.Accounts
             var validationResult = _createAccountRequestValidatorValidator.Validate(createAccountRequest);
             if (!validationResult.IsValid)
             {
-                return new BadRequestResult();
+                return new BadRequestObjectResult(new { Errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList() });
             }
 
             var createdAccount = await _accountsService.CreateAccount(createAccountRequest.UserId, createAccountRequest.StartingAmount, createAccountRequest.Name);
@@ -56,9 +56,9 @@ namespace BankingSystem.Features.Accounts
         }
 
         [HttpGet]
-        [ProducesResponseType(typeof(List<Account>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<AccountDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<List<Account>>> GetAllAccountsAsync()
+        public async Task<ActionResult<List<AccountDTO>>> GetAllAccountsAsync()
         {
             var accounts = await _accountsService.GetAllAccounts();
 

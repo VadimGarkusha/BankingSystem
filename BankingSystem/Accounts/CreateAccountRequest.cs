@@ -1,4 +1,4 @@
-﻿namespace BankingSystem.Features.Accounts
+﻿namespace BankingSystem.Accounts
 {
     public class CreateAccountRequest
     {

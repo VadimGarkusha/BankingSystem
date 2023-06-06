@@ -1,6 +1,6 @@
-﻿using BankingSystem.Data;
-using BankingSystem.Features.Accounts.Data;
-using BankingSystem.Features.Users.Data;
+﻿using BankingSystem.DAL;
+using BankingSystem.DAL.Accounts;
+using BankingSystem.DAL.Users;
 using System;
 
 namespace BankingSystem.Helpers
@@ -45,7 +45,6 @@ namespace BankingSystem.Helpers
                         }
                     }
                 }
-
             };
 
             context.Users.AddRange(users);

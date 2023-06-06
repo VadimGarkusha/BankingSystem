@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BankingSystem\BankingSystem.csproj" />
+    <ProjectReference Include="..\..\BankingSystem.DAL\BankingSystem.DAL.csproj" />
+    <ProjectReference Include="..\..\BankingSystem.BL\BankingSystem.BL.csproj" />
   </ItemGroup>
 
 </Project>

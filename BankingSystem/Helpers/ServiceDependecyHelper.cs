@@ -1,18 +1,15 @@
 ﻿using AutoMapper;
+using BankingSystem.BL.Accounts;
 using BankingSystem.Common;
-using BankingSystem.Data;
-using BankingSystem.Features.Accounts;
-using BankingSystem.Features.Accounts.BL;
-using BankingSystem.Features.Accounts.DAL;
-using BankingSystem.Features.Accounts.Data;
-using BankingSystem.Features.AccountTransactions;
-using BankingSystem.Features.AccountTransactions.BL;
-using BankingSystem.Features.AccountTransactions.DAL;
-using BankingSystem.Features.AccountTransactions.Data;
-using BankingSystem.Features.Users.BL;
-using BankingSystem.Features.Users.DAL;
-using BankingSystem.Features.Users.Data;
+using BankingSystem.DAL;
+using BankingSystem.DAL.Accounts;
+using BankingSystem.DAL.AccountTransactions;
+using BankingSystem.DAL.Users;
 using FluentValidation;
+using BankingSystem.BL.Users;
+using BankingSystem.BL.AccountTransactions;
+using BankingSystem.Accounts;
+using BankingSystem.AccountTransactions;
 
 namespace BankingSystem.Helpers
 {
@@ -21,14 +18,14 @@ namespace BankingSystem.Helpers
         public static void RegisterServices(IServiceCollection services)
         {
             services.AddDbContext<ApiContext>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IAccountRepository, AccountRepository>();
-            services.AddScoped<IAccountTransactionRepository, AccountTransactionRepository>();
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IAccountRepository, AccountRepository>();
+            services.AddTransient<IAccountTransactionRepository, AccountTransactionRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            services.AddScoped<IAccountDAL, AccountDAL>();
-            services.AddScoped<IUserDAL, UserDAL>();
-            services.AddScoped<IAccountTransactionDAL, AccountTransactionDAL>();
+            services.AddTransient<IAccountDAL, AccountDAL>();
+            services.AddTransient<IUserDAL, UserDAL>();
+            services.AddTransient<IAccountTransactionDAL, AccountTransactionDAL>();
 
             var mapperConfig = new MapperConfiguration(mc =>
             {
@@ -37,15 +34,15 @@ namespace BankingSystem.Helpers
             IMapper mapper = mapperConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddScoped<IAccountService, AccountService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IAccountTransactionService, AccountTransactionService>();
+            services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IAccountTransactionService, AccountTransactionService>();
 
-            services.AddScoped<ITransactionLimitsProvider, TransactionLimitsProvider>();
+            services.AddTransient<ITransactionLimitsProvider, TransactionLimitsProvider>();
 
-            services.AddScoped<IValidator<CreateAccountRequest>, CreateAccountRequestValidator>();
-            services.AddScoped<IValidator<DepositRequest>, DepositRequestValidator>();
-            services.AddScoped<IValidator<WithdrawRequest>, WithdrawRequestValidator>();
+            services.AddTransient<IValidator<CreateAccountRequest>, CreateAccountRequestValidator>();
+            services.AddTransient<IValidator<DepositRequest>, DepositRequestValidator>();
+            services.AddTransient<IValidator<WithdrawRequest>, WithdrawRequestValidator>();
         }
     }
 }

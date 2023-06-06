@@ -1,9 +1,6 @@
 ﻿using AutoMapper;
+using BankingSystem.BL.Accounts;
 using BankingSystem.Features.Accounts;
-using BankingSystem.Features.Accounts.BL;
-using BankingSystem.Features.Accounts.Data;
-using BankingSystem.Features.Users.BL;
-using BankingSystem.Features.Users.DAL;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -13,7 +10,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 
 namespace BankingSystem.UnitTests.Features.Accounts
 {

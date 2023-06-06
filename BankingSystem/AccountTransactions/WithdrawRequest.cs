@@ -1,6 +1,6 @@
-﻿namespace BankingSystem.Features.AccountTransactions
+﻿namespace BankingSystem.AccountTransactions
 {
-    public class DepositRequest
+    public class WithdrawRequest
     {
         public int AccountId { get; set; }
         public double Amount { get; set; }

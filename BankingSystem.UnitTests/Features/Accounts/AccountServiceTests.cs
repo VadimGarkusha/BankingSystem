@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using BankingSystem.Features.Accounts.BL;
-using BankingSystem.Features.Accounts.DAL;
-using BankingSystem.Features.Accounts.Data;
-using BankingSystem.Features.Users.BL;
-using BankingSystem.Features.Users.DAL;
-using BankingSystem.Features.Users.Data;
+using BankingSystem.BL.Accounts;
+using BankingSystem.BL.Users;
+using BankingSystem.DAL.Accounts;
 using Moq;
 
 namespace BankingSystem.UnitTests.Features.Accounts

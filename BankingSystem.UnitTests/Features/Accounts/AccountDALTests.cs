@@ -1,10 +1,7 @@
 ﻿using AutoMapper;
-using BankingSystem.Data;
-using BankingSystem.Features.Accounts.BL;
-using BankingSystem.Features.Accounts.DAL;
-using BankingSystem.Features.Accounts.Data;
-using BankingSystem.Features.AccountTransactions.Data;
-using BankingSystem.Features.Users.BL;
+using BankingSystem.DAL;
+using BankingSystem.DAL.Accounts;
+using BankingSystem.DAL.AccountTransactions;
 using Moq;
 using System;
 using System.Collections.Generic;
