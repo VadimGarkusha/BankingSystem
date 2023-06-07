@@ -29,10 +29,10 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\BankingSystem.BL\BankingSystem.BL.csproj">
+    <ProjectReference Include="..\BankingSystem.BL\BankingSystem.BL.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
-    <ProjectReference Include="..\..\BankingSystem.DAL\BankingSystem.DAL.csproj">
+    <ProjectReference Include="..\BankingSystem.DAL\BankingSystem.DAL.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
   </ItemGroup>

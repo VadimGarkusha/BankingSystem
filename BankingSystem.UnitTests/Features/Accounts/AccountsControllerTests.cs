@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
+using BankingSystem.Accounts;
 using BankingSystem.BL.Accounts;
-using BankingSystem.Features.Accounts;
+using BankingSystem.Controllers;
 using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
@@ -58,7 +59,7 @@ namespace BankingSystem.UnitTests.Features.Accounts
             var result = await _accountController.CreateAccount(createAccountRequest);
 
             Assert.IsNotNull(result);
-            Assert.IsInstanceOf<BadRequestResult>(result.Result);
+            Assert.IsInstanceOf<BadRequestObjectResult>(result.Result);
             _validatorMock.Verify(v => v.Validate(createAccountRequest), Times.Once);
         }
 
